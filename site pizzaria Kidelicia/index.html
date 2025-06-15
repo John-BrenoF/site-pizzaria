@@ -1,0 +1,2556 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ki Delicia</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #ff0000;            
+            --secondary-color: #4ECDC4;
+            --accent-color: #FFE66D;
+            --dark-color: #dbdbdb;
+            --light-color: #282828;
+            --background-light: #3e3e3e;
+            --background-dark: #111114;
+            --text-light: #000000;
+            --text-dark: #ffffff;
+            --success-color: #2ECC71;
+            --warning-color: #F1C40F;
+            --error-color: #ff1900e5;
+            --gradient-primary: linear-gradient(135deg, #ff0000f0, #ff5900ec);
+            --gradient-secondary: linear-gradient(135deg, #a1fff9, #45B7AF);
+            --shadow-color: rgba(0, 0, 0, 0.1);
+            --card-shadow: 0 4px 15px var(--shadow-color);
+            --hover-shadow: 0 6px 20px var(--shadow-color);
+        }
+
+        [data-theme="dark"] {
+            --background-color: var(--background-dark);
+            --text-color: var(--text-light);
+            --menu-item-bg: #2C3E50;
+            --menu-item-text: var(--text-light);
+            --menu-item-description: #95A5A6;
+            --cart-bg: #2C3E50;
+            --cart-text: var(--text-light);
+            --comment-bg: #2C3E50;
+            --comment-text: var(--text-light);
+            --border-color: #34495E;
+            --card-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            --hover-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        [data-theme="light"] {
+            --background-color: var(--background-light);
+            --text-color: var(--text-dark);
+            --menu-item-bg: var(--light-color);
+            --menu-item-text: var(--dark-color);
+            --menu-item-description: #7F8C8D;
+            --cart-bg: var(--light-color);
+            --cart-text: var(--dark-color);
+            --comment-bg: var(--light-color);
+            --comment-text: var(--dark-color);
+            --border-color: #ECF0F1;
+            --card-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            --hover-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: var(--background-color);
+            color: var(--text-color);
+            transition: all 0.3s ease;
+            position: relative;
+            min-height: 100vh;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('https://images.unsplash.com/photo-1513104890138-7c749659a591?w=1920');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            filter: brightness(0.4) blur(8px);
+            z-index: -1;
+        }
+
+        .header {
+            background: var(--gradient-primary);
+            padding: 1rem;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: var(--card-shadow);
+        }
+
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 1rem;
+            margin-right: 1rem;
+        }
+
+        .social-icon {
+            color: white;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .social-icon:hover {
+            transform: scale(1.2);
+        }
+
+        .logo {
+            color: white;
+            font-size: 2rem;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .search-bar {
+            flex: 1;
+            max-width: 400px;
+            margin: 0 2rem;
+            position: relative;
+        }
+
+        .search-bar input {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            padding-left: 2.5rem;
+            border: none;
+            border-radius: 25px;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            font-size: 1rem;
+        }
+
+        .search-bar input::placeholder {
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .search-bar i {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: white;
+        }
+
+        .cart-icon {
+            position: relative;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: white;
+            color: var(--primary-color);
+            font-size: 0.8rem;
+            font-weight: bold;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .categories {
+            display: flex;
+            gap: 1rem;
+            margin: 2rem 0;
+            overflow-x: auto;
+            padding: 0.5rem;
+            scrollbar-width: none;
+            
+        }
+
+        .categories::-webkit-scrollbar {
+            display: none;
+        }
+
+        .category-btn {
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 25px;
+            background: var(--menu-item-bg);
+            color: var(--menu-item-text);
+            cursor: pointer;
+            white-space: nowrap;
+            transition: all 0.3s ease;
+            box-shadow: var(--card-shadow);
+        }
+
+        .category-btn.active {
+            background: var(--gradient-primary);
+            color: white;
+        }
+
+        .category-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--hover-shadow);
+        }
+
+        .cart-modal {
+            position: fixed;
+            top: 0;
+            right: -400px;
+            width: 400px;
+            height: 100%;
+            background: var(--cart-bg);
+            box-shadow: var(--card-shadow);
+            transition: right 0.3s ease;
+            z-index: 2000;
+            padding: 2rem;
+        }
+
+        .cart-modal.active {
+            right: 0;
+        }
+
+        .cart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .cart-items {
+            max-height: calc(100vh - 200px);
+            overflow-y: auto;
+        }
+
+        .cart-item {
+            display: flex;
+            gap: 1rem;
+            padding: 1rem 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .cart-item img {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        .cart-item-details {
+            flex: 1;
+        }
+
+        .cart-item-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--cart-text);
+        }
+
+        .cart-item-price {
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        .cart-item-quantity {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .quantity-btn {
+            background: none;
+            border: 1px solid #ddd;
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        .cart-total {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 2rem;
+            background: var(--light-color);
+            border-top: 1px solid #eee;
+        }
+
+        .cart-total-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+
+        /* New styles for coupon and loyalty system */
+        .coupon-section {
+            margin: 1rem 0;
+            padding: 1rem;
+            background: var(--menu-item-bg);
+            border-radius: 8px;
+        }
+
+        .coupon-input {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .coupon-input input {
+            flex: 1;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+
+        .loyalty-points {
+            background: var(--gradient-secondary);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .schedule-section {
+            margin: 1rem 0;
+            padding: 1rem;
+            background: var(--menu-item-bg);
+            border-radius: 8px;
+        }
+
+        .schedule-options {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .schedule-option {
+            padding: 0.5rem 1rem;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .schedule-option.active {
+            background: var(--gradient-primary);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        .datetime-picker {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+        }
+
+        .checkout-btn {
+            width: 100%;
+            padding: 1rem;
+            background: var(--gradient-primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+
+        .checkout-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--hover-shadow);
+            opacity: 0.9;
+        }
+
+        .favorite-btn {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: rgba(255, 255, 255, 0.9);
+            border: none;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .favorite-btn i {
+            color: #ff4d4d;
+            font-size: 1.2rem;
+        }
+
+        .favorite-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .notification {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--gradient-primary);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            box-shadow: var(--card-shadow);
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+
+        .notification.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .theme-toggle {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            cursor: pointer;
+            font-size: 1.2rem;
+            padding: 0.5rem;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.3s ease;
+        }
+
+        .theme-toggle:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .main {
+            margin-top: 80px;
+            padding: 2rem;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .address-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .address-modal.active {
+            display: flex;
+        }
+
+        .address-form {
+            background: var(--menu-item-bg);
+            padding: 2rem;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: var(--card-shadow);
+        }
+
+        .address-form h2 {
+            margin-bottom: 1.5rem;
+            color: var(--dark-color);
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--dark-color);
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px rgba(255, 77, 77, 0.1);
+            outline: none;
+        }
+
+        .form-group input.error {
+            border-color: #ff4d4d;
+        }
+
+        .error-message {
+            color: #ff4d4d;
+            font-size: 0.8rem;
+            margin-top: 0.3rem;
+            display: none;
+        }
+
+        .error-message.show {
+            display: block;
+        }
+
+        .form-buttons {
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .btn {
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: var(--gradient-primary);
+            color: white;
+        }
+
+        .btn-secondary {
+            background: var(--gradient-secondary);
+            color: white;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .menu-item {
+            background: var(--menu-item-bg);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: var(--card-shadow);
+            transition: all 0.3s ease;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .menu-item:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--hover-shadow);
+        }
+
+        .menu-item img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .menu-item:hover img {
+            transform: scale(1.05);
+        }
+
+        .menu-item-content {
+            padding: 1.5rem;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .menu-item-details {
+            background: var(--light-color);
+            border-top: 1px solid #eee;
+            padding: 1rem;
+            margin-top: auto;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+            position: relative;
+            z-index: 2;
+        }
+
+        .menu-item:hover .menu-item-details {
+            transform: translateY(0);
+        }
+
+        .menu-item-details h4 {
+            color: var(--dark-color);
+            margin-bottom: 0.5rem;
+            font-size: 1rem;
+        }
+
+        .menu-item-details ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .menu-item-details li {
+            margin-bottom: 0.3rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .menu-item-details li i {
+            margin-right: 0.5rem;
+            color: var(--primary-color);
+            width: 16px;
+            text-align: center;
+        }
+
+        .menu-item-actions {
+            margin-top: auto;
+            padding-top: 1rem;
+            border-top: 1px solid #eee;
+        }
+
+        .order-btn {
+            background: var(--gradient-primary);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            width: 100%;
+            justify-content: center;
+        }
+
+        .order-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--hover-shadow);
+            opacity: 0.9;
+        }
+
+        .order-btn i {
+            font-size: 1.1rem;
+        }
+
+        .menu-item-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: var(--gradient-primary);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            z-index: 3;
+        }
+
+        .menu-item-badge.promo {
+            background: var(--gradient-secondary);
+        }
+
+        .menu-item-badge.new {
+            background: var(--success-color);
+        }
+
+        .menu-item-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--menu-item-text);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .menu-item-description {
+            font-size: 0.95rem;
+            color: var(--menu-item-description);
+            margin-bottom: 1rem;
+            line-height: 1.5;
+        }
+
+        .menu-item-price {
+            font-weight: 700;
+            color: var(--primary-color);
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+        }
+
+        .rating {
+            color: var(--accent-color);
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .rating-count {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .social-comments {
+            margin-top: 4rem;
+            padding: 2rem;
+            background: var(--menu-item-bg);
+            box-shadow: var(--card-shadow);
+            border-radius: 15px;
+        }
+
+        .social-comments h2 {
+            color: var(--dark-color);
+            margin-bottom: 1.5rem;
+        }
+
+        .comment-stats {
+            display: flex;
+            gap: 2rem;
+            margin-bottom: 2rem;
+            padding: 1rem;
+            background: var(--background-color);
+            border-radius: 10px;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        .stat-label {
+            color: var(--text-color);
+            font-size: 0.9rem;
+        }
+
+        .comment-filters {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 0.5rem 1rem;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            background: var(--light-color);
+            color: var(--text-color);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .filter-btn.active {
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        .comment-verified {
+            color: var(--primary-color);
+            margin-left: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .comment-verified i {
+            margin-right: 0.2rem;
+        }
+
+        .comment-photo {
+            margin-top: 1rem;
+            max-width: 200px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .comment-photo-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 3000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .comment-photo-modal.active {
+            display: flex;
+        }
+
+        .comment-photo-modal img {
+            max-width: 90%;
+            max-height: 90vh;
+            object-fit: contain;
+        }
+
+        .comment-photo-modal .close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            color: white;
+            font-size: 2rem;
+            cursor: pointer;
+        }
+
+        .comment-share {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .share-btn {
+            padding: 0.3rem 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 15px;
+            background: var(--light-color);
+            color: var(--text-color);
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .share-btn:hover {
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        .comment-report {
+            color: #666;
+            font-size: 0.8rem;
+            cursor: pointer;
+            margin-left: auto;
+        }
+
+        .comment-report:hover {
+            color: var(--primary-color);
+        }
+
+        .comment-form {
+            background: var(--background-color);
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+        }
+
+        .comment-form h3 {
+            margin-bottom: 1rem;
+            color: var(--dark-color);
+        }
+
+        .rating-input {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .rating-input i {
+            color: #ddd;
+            cursor: pointer;
+            font-size: 1.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .rating-input i:hover,
+        .rating-input i.active {
+            color: #ffd700;
+        }
+
+        .comment-input {
+            width: 100%;
+            padding: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            resize: vertical;
+            min-height: 100px;
+            font-family: inherit;
+        }
+
+        .comment-input:focus {
+            border-color: var(--primary-color);
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(255, 77, 77, 0.1);
+        }
+
+        .comment-submit {
+            background: var(--gradient-primary);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .comment-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--hover-shadow);
+            opacity: 0.9;
+        }
+
+        .comment {
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            gap: 1rem;
+            background: var(--comment-bg);
+        }
+
+        .comment:last-child {
+            border-bottom: none;
+        }
+
+        .comment-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--primary-color);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 1.2rem;
+        }
+
+        .comment-content {
+            flex: 1;
+        }
+
+        .comment-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .comment-author {
+            font-weight: 600;
+            color: var(--comment-text);
+        }
+
+        .comment-date {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .comment-text {
+            color: var(--comment-text);
+            line-height: 1.5;
+            margin-bottom: 0.5rem;
+        }
+
+        .comment-actions {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .comment-action {
+            color: #666;
+            font-size: 0.9rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        .comment-action:hover {
+            color: var(--primary-color);
+        }
+
+        .comment-action i {
+            font-size: 1rem;
+        }
+
+        .comment-replies {
+            margin-left: 3rem;
+            margin-top: 1rem;
+            padding-left: 1rem;
+            border-left: 2px solid #eee;
+        }
+
+        .comment-reply-form {
+            margin-top: 1rem;
+            display: none;
+        }
+
+        .comment-reply-form.active {
+            display: block;
+        }
+
+        .comment-reply-input {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            margin-bottom: 0.5rem;
+            resize: vertical;
+            min-height: 60px;
+            font-family: inherit;
+        }
+
+        .comment-reply-input:focus {
+            border-color: var(--primary-color);
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(255, 77, 77, 0.1);
+        }
+
+        .comment-reply-submit {
+            background: var(--gradient-primary);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .comment-reply-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--hover-shadow);
+            opacity: 0.9;
+        }
+
+        .location {
+            margin-top: 4rem;
+            padding: 2rem;
+            background: var(--menu-item-bg);
+            box-shadow: var(--card-shadow);
+            border-radius: 15px;
+        }
+
+        .location h2 {
+            color: var(--dark-color);
+            margin-bottom: 1.5rem;
+        }
+
+        .map {
+            width: 100%;
+            height: 400px;
+            border-radius: 10px;
+            margin-top: 1rem;
+        }
+
+        .loading {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 3000;
+        }
+
+        .loading.active {
+            display: flex;
+        }
+
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid var(--primary-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @media (max-width: 768px) {
+            .menu-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .main {
+                padding: 1rem;
+            }
+
+            .address-form {
+                width: 95%;
+                padding: 1.5rem;
+            }
+        }
+
+        /* Map Section Styles */
+        .map-section {
+            padding: 2rem;
+            margin: 2rem auto;
+            max-width: 1200px;
+            background: var(--menu-item-bg);
+            border-radius: 15px;
+            box-shadow: var(--card-shadow);
+        }
+
+        .map-section h2 {
+            text-align: center;
+            margin-bottom: 1.5rem;
+            color: var(--text-color);
+        }
+
+        .map-container {
+            width: 100%;
+            height: 400px;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .map-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border: 0;
+        }
+
+        .address-info {
+            text-align: center;
+            margin-top: 1rem;
+            color: var(--text-color);
+        }
+    </style>
+</head>
+<body data-theme="light">
+    <header class="header">
+        <nav class="nav">
+            <div class="logo">Ki Delicia</div>
+            <div class="search-bar">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="Buscar produtos..." onkeyup="searchProducts(this.value)">
+            </div>
+            <div class="social-icons">
+                <a href="https://instagram.com/kidelicia" target="_blank" class="social-icon">
+                    <i class="fab fa-instagram"></i>
+                </a>
+                <a href="https://facebook.com/kidelicia" target="_blank" class="social-icon">
+                    <i class="fab fa-facebook"></i>
+                </a>
+                <a href="https://wa.me/5511999999999" target="_blank" class="social-icon">
+                    <i class="fab fa-whatsapp"></i>
+                </a>
+                <a href="https://twitter.com/kidelicia" target="_blank" class="social-icon">
+                    <i class="fab fa-twitter"></i>
+                </a>
+            </div>
+            <div class="cart-icon" onclick="toggleCart()">
+                <i class="fas fa-shopping-cart"></i>
+                <span class="cart-count">0</span>
+            </div>
+            <button class="theme-toggle" onclick="toggleTheme()">
+                <i class="fas fa-moon"></i>
+            </button>
+        </nav>
+    </header>
+
+    <main class="main">
+        <div class="categories">
+            <button class="category-btn active" onclick="filterCategory('all')">Todos</button>
+            <button class="category-btn" onclick="filterCategory('pizza')">Pizzas</button>
+            <button class="category-btn" onclick="filterCategory('burger')">Hambúrgueres</button>
+            <button class="category-btn" onclick="filterCategory('drink')">Bebidas</button>
+            <button class="category-btn" onclick="filterCategory('dessert')">Sobremesas</button>
+            <button class="category-btn" onclick="filterCategory('combo')">Combos</button>
+            <button class="category-btn" onclick="filterCategory('promo')">Promoções</button>
+        </div>
+
+        <div class="menu-grid">
+            <!-- Pizzas -->
+            <div class="menu-item" data-category="pizza">
+                <button class="favorite-btn" onclick="toggleFavorite(this)">
+                    <i class="far fa-heart"></i>
+                </button>
+                <span class="menu-item-badge">Mais Pedido</span>
+                <img src="https://images.unsplash.com/photo-1604382354936-07c5d9983bd3?w=500" alt="Pizza Margherita">
+                <div class="menu-item-content">
+                    <h3 class="menu-item-title">Pizza Margherita <span class="menu-item-price">R$ 45,90</span></h3>
+                    <p class="menu-item-description">Molho de tomate, mussarela, tomate, manjericão fresco</p>
+                    <div class="menu-item-actions">
+                        <div class="rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                            <span class="rating-count">(128)</span>
+                        </div>
+                        <button class="order-btn" onclick="addToCart('Pizza Margherita', 45.90, 'https://images.unsplash.com/photo-1604382354936-07c5d9983bd3?w=500')">
+                            <i class="fas fa-shopping-cart"></i>
+                            Adicionar
+                        </button>
+                    </div>
+                </div>
+                <div class="menu-item-details">
+                    <h4>Detalhes</h4>
+                    <ul>
+                        <li><i class="fas fa-clock"></i> Tempo de preparo: 20 min</li>
+                        <li><i class="fas fa-fire"></i> Calorias: 266 kcal</li>
+                        <li><i class="fas fa-info-circle"></i> Tamanho: 30cm</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="menu-item" data-category="pizza">
+                <button class="favorite-btn" onclick="toggleFavorite(this)">
+                    <i class="far fa-heart"></i>
+                </button>
+                <span class="menu-item-badge new">Novo</span>
+                <img src="https://images.unsplash.com/photo-1513104890138-7c749659a591?w=500" alt="Pizza Pepperoni">
+                <div class="menu-item-content">
+                    <h3 class="menu-item-title">Pizza Pepperoni <span class="menu-item-price">R$ 49,90</span></h3>
+                    <p class="menu-item-description">Molho de tomate, mussarela, pepperoni, orégano</p>
+
+                    <div class="menu-item-actions">
+                        <div class="rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <span class="rating-count">(156)</span>
+                        </div>
+                        <button class="order-btn" onclick="addToCart('Pizza Pepperoni', 49.90, 'https://images.unsplash.com/photo-1513104890138-7c749659a591?w=500')">
+                            <i class="fas fa-shopping-cart"></i>
+                            Adicionar
+                        </button>
+                    </div>
+                </div>
+                <div class="menu-item-details">
+                    <h4>Detalhes</h4>
+                    <ul>
+                        <li><i class="fas fa-clock"></i> Tempo de preparo: 25 min</li>
+                        <li><i class="fas fa-fire"></i> Calorias: 312 kcal</li>
+                        <li><i class="fas fa-info-circle"></i> Tamanho: 30cm</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="menu-item" data-category="pizza">
+                <button class="favorite-btn" onclick="toggleFavorite(this)">
+                    <i class="far fa-heart"></i>
+                </button>
+                <img src="https://images.unsplash.com/photo-1574071318508-1cdbab80d002?w=500" alt="Pizza Frango com Catupiry">
+                <div class="menu-item-content">
+                    <h3 class="menu-item-title">Pizza Frango com Catupiry <span class="menu-item-price">R$ 52,90</span></h3>
+                    <p class="menu-item-description">Molho de tomate, mussarela, frango desfiado, catupiry, milho</p>
+                    <div class="menu-item-actions">
+                        <div class="rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <span class="rating-count">(142)</span>
+                        </div>
+                        <button class="order-btn" onclick="addToCart('Pizza Frango com Catupiry', 52.90, 'https://images.unsplash.com/photo-1574071318508-1cdbab80d002?w=500')">
+                            <i class="fas fa-shopping-cart"></i>
+                            Adicionar
+                        </button>
+                    </div>
+                </div>
+                <div class="menu-item-details">
+                    <h4>Detalhes</h4>
+                    <ul>
+                        <li><i class="fas fa-clock"></i> Tempo de preparo: 25 min</li>
+                        <li><i class="fas fa-fire"></i> Calorias: 298 kcal</li>
+                        <li><i class="fas fa-info-circle"></i> Tamanho: 30cm</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="menu-item" data-category="pizza">
+                <button class="favorite-btn" onclick="toggleFavorite(this)">
+                    <i class="far fa-heart"></i>
+                </button>
+                <span class="menu-item-badge promo">Promoção</span>
+                <img src="https://images.unsplash.com/photo-1594007654729-407eedc661b5?w=500" alt="Pizza Quatro Queijos">
+                <div class="menu-item-content">
+                    <h3 class="menu-item-title">
+                        Pizza Quatro Queijos
+                        <span class="menu-item-price">
+                            <span class="promo-price">R$ 54,90</span>
+                            R$ 47,90
+                            <span class="promo-badge">-13%</span>
+                        </span>
+                    </h3>
+                    <p class="menu-item-description">Molho de tomate, mussarela, parmesão, gorgonzola, catupiry</p>
+                    <div class="menu-item-actions">
+                        <div class="rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                            <span class="rating-count">(98)</span>
+                        </div>
+                        <button class="order-btn" onclick="addToCart('Pizza Quatro Queijos', 47.90, 'https://images.unsplash.com/photo-1594007654729-407eedc661b5?w=500')">
+                            <i class="fas fa-shopping-cart"></i>
+                            Adicionar
+                        </button>
+                    </div>
+                </div>
+                <div class="menu-item-details">
+                    <h4>Detalhes</h4>
+                    <ul>
+                        <li><i class="fas fa-clock"></i> Tempo de preparo: 22 min</li>
+                        <li><i class="fas fa-fire"></i> Calorias: 345 kcal</li>
+                        <li><i class="fas fa-info-circle"></i> Tamanho: 30cm</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Hambúrgueres -->
+            <div class="menu-item" data-category="burger">
+                <button class="favorite-btn" onclick="toggleFavorite(this)">
+                    <i class="far fa-heart"></i>
+                </button>
+                <span class="menu-item-badge promo">Promoção</span>
+                <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=500" alt="Hambúrguer Clássico">
+                <div class="menu-item-content">
+                    <h3 class="menu-item-title">
+                        Hambúrguer Clássico
+                        <span class="menu-item-price">
+                            <span class="promo-price">R$ 35,90</span>
+                            R$ 29,90
+                            <span class="promo-badge">-17%</span>
+                        </span>
+                    </h3>
+                    <p class="menu-item-description">Pão, carne, queijo, alface, tomate, cebola</p>
+                    <div class="menu-item-actions">
+                        <div class="rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="far fa-star"></i>
+                            <span class="rating-count">(95)</span>
+                        </div>
+                        <button class="order-btn" onclick="addToCart('Hambúrguer Clássico', 29.90, 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=500')">
+                            <i class="fas fa-shopping-cart"></i>
+                            Adicionar
+                        </button>
+                    </div>
+                </div>
+                <div class="menu-item-details">
+                    <h4>Detalhes</h4>
+                    <ul>
+                        <li><i class="fas fa-clock"></i> Tempo de preparo: 15 min</li>
+                        <li><i class="fas fa-fire"></i> Calorias: 450 kcal</li>
+                        <li><i class="fas fa-info-circle"></i> Peso: 180g</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="menu-item" data-category="burger">
+                <button class="favorite-btn" onclick="toggleFavorite(this)">
+                    <i class="far fa-heart"></i>
+                </button>
+                <span class="menu-item-badge new">Novo</span>
+                <img src="https://images.unsplash.com/photo-1553979459-d2229ba7433b?w=500" alt="Hambúrguer Duplo">
+                <div class="menu-item-content">
+                    <h3 class="menu-item-title">Hambúrguer Duplo <span class="menu-item-price">R$ 39,90</span></h3>
+                    <p class="menu-item-description">Dois hambúrgueres, queijo cheddar, bacon, molho especial</p>
+                    <div class="menu-item-actions">
+                        <div class="rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <span class="rating-count">(78)</span>
+                        </div>
+                        <button class="order-btn" onclick="addToCart('Hambúrguer Duplo', 39.90, 'https://images.unsplash.com/photo-1553979459-d2229ba7433b?w=500')">
+                            <i class="fas fa-shopping-cart"></i>
+                            Adicionar
+                        </button>
+                    </div>
+                </div>
+                <div class="menu-item-details">
+                    <h4>Detalhes</h4>
+                    <ul>
+                        <li><i class="fas fa-clock"></i> Tempo de preparo: 20 min</li>
+                        <li><i class="fas fa-fire"></i> Calorias: 680 kcal</li>
+                        <li><i class="fas fa-info-circle"></i> Peso: 280g</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Bebidas -->
+            <div class="menu-item" data-category="drink">
+                <button class="favorite-btn" onclick="toggleFavorite(this)">
+                    <i class="far fa-heart"></i>
+                </button>
+                <img src="https://images.unsplash.com/photo-1544145945-f90425340c7e?w=500" alt="Refrigerante">
+                <div class="menu-item-content">
+                    <h3 class="menu-item-title">Refrigerante <span class="menu-item-price">R$ 8,90</span></h3>
+                    <p class="menu-item-description">Refrigerante gelado 350ml (Coca-Cola, Sprite, Fanta)</p>
+                    <div class="menu-item-actions">
+                        <div class="rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="far fa-star"></i>
+                            <span class="rating-count">(45)</span>
+                        </div>
+                        <button class="order-btn" onclick="addToCart('Refrigerante', 8.90, 'https://images.unsplash.com/photo-1544145945-f90425340c7e?w=500')">
+                            <i class="fas fa-shopping-cart"></i>
+                            Adicionar
+                        </button>
+                    </div>
+                </div>
+                <div class="menu-item-details">
+                    <h4>Detalhes</h4>
+                    <ul>
+                        <li><i class="fas fa-snowflake"></i> Servido gelado</li>
+                        <li><i class="fas fa-info-circle"></i> Volume: 350ml</li>
+                        <li><i class="fas fa-list"></i> Sabores disponíveis</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="menu-item" data-category="drink">
+                <button class="favorite-btn" onclick="toggleFavorite(this)">
+                    <i class="far fa-heart"></i>
+                </button>
+                <img src="https://images.unsplash.com/photo-1556679343-c6f6c3f9d1a1?w=500" alt="Suco Natural">
+                <div class="menu-item-content">
+                    <h3 class="menu-item-title">Suco Natural <span class="menu-item-price">R$ 12,90</span></h3>
+                    <p class="menu-item-description">Suco natural 500ml (Laranja, Limão, Abacaxi)</p>
+                    <div class="menu-item-actions">
+                        <div class="rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <span class="rating-count">(62)</span>
+                        </div>
+                        <button class="order-btn" onclick="addToCart('Suco Natural', 12.90, 'https://images.unsplash.com/photo-1556679343-c6f6c3f9d1a1?w=500')">
+                            <i class="fas fa-shopping-cart"></i>
+                            Adicionar
+                        </button>
+                    </div>
+                </div>
+                <div class="menu-item-details">
+                    <h4>Detalhes</h4>
+                    <ul>
+                        <li><i class="fas fa-snowflake"></i> Servido gelado</li>
+                        <li><i class="fas fa-info-circle"></i> Volume: 500ml</li>
+                        <li><i class="fas fa-list"></i> Sabores disponíveis</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Sobremesas -->
+            <div class="menu-item" data-category="dessert">
+                <button class="favorite-btn" onclick="toggleFavorite(this)">
+                    <i class="far fa-heart"></i>
+                </button>
+                <img src="https://images.unsplash.com/photo-1551024506-0bccd828d307?w=500" alt="Sorvete">
+                <div class="menu-item-content">
+                    <h3 class="menu-item-title">Sorvete <span class="menu-item-price">R$ 12,90</span></h3>
+                    <p class="menu-item-description">Sorvete cremoso com calda de chocolate</p>
+                    <div class="menu-item-actions">
+                        <div class="rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <span class="rating-count">(78)</span>
+                        </div>
+                        <button class="order-btn" onclick="addToCart('Sorvete', 12.90, 'https://images.unsplash.com/photo-1551024506-0bccd828d307?w=500')">
+                            <i class="fas fa-shopping-cart"></i>
+                            Adicionar
+                        </button>
+                    </div>
+                </div>
+                <div class="menu-item-details">
+                    <h4>Detalhes</h4>
+                    <ul>
+                        <li><i class="fas fa-snowflake"></i> Servido gelado</li>
+                        <li><i class="fas fa-fire"></i> Calorias: 250 kcal</li>
+                        <li><i class="fas fa-info-circle"></i> Tamanho: 300ml</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="menu-item" data-category="dessert">
+                <button class="favorite-btn" onclick="toggleFavorite(this)">
+                    <i class="far fa-heart"></i>
+                </button>
+                <span class="menu-item-badge new">Novo</span>
+                <img src="https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=500" alt="Brownie">
+                <div class="menu-item-content">
+                    <h3 class="menu-item-title">Brownie <span class="menu-item-price">R$ 15,90</span></h3>
+                    <p class="menu-item-description">Brownie quente com sorvete e calda de chocolate</p>
+                    <div class="menu-item-actions">
+                        <div class="rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                            <span class="rating-count">(45)</span>
+                        </div>
+                        <button class="order-btn" onclick="addToCart('Brownie', 15.90, 'https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=500')">
+                            <i class="fas fa-shopping-cart"></i>
+                            Adicionar
+                        </button>
+                    </div>
+                </div>
+                <div class="menu-item-details">
+                    <h4>Detalhes</h4>
+                    <ul>
+                        <li><i class="fas fa-fire"></i> Servido quente</li>
+                        <li><i class="fas fa-fire"></i> Calorias: 320 kcal</li>
+                        <li><i class="fas fa-info-circle"></i> Peso: 200g</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Combos -->
+            <div class="menu-item" data-category="combo">
+                <button class="favorite-btn" onclick="toggleFavorite(this)">
+                    <i class="far fa-heart"></i>
+                </button>
+                <span class="menu-item-badge">Combo</span>
+                <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=500" alt="Combo Família">
+                <div class="menu-item-content">
+                    <h3 class="menu-item-title">Combo Família <span class="menu-item-price">R$ 89,90</span></h3>
+                    <p class="menu-item-description">2 pizzas grandes + 2 refrigerantes + 1 sobremesa</p>
+                    <div class="menu-item-actions">
+                        <div class="rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                            <span class="rating-count">(112)</span>
+                        </div>
+                        <button class="order-btn" onclick="addToCart('Combo Família', 89.90, 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=500')">
+                            <i class="fas fa-shopping-cart"></i>
+                            Adicionar
+                        </button>
+                    </div>
+                </div>
+                <div class="menu-item-details">
+                    <h4>Detalhes</h4>
+                    <ul>
+                        <li><i class="fas fa-users"></i> Serve 4 pessoas</li>
+                        <li><i class="fas fa-clock"></i> Tempo de preparo: 30 min</li>
+                        <li><i class="fas fa-info-circle"></i> Economia de R$ 20,00</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="menu-item" data-category="combo">
+                <button class="favorite-btn" onclick="toggleFavorite(this)">
+                    <i class="far fa-heart"></i>
+                </button>
+                <span class="menu-item-badge promo">Promoção</span>
+                <img src="https://images.unsplash.com/photo-1551782450-a2132b4ba21d?w=500" alt="Combo Casal">
+                <div class="menu-item-content">
+                    <h3 class="menu-item-title">
+                        Combo Casal
+                        <span class="menu-item-price">
+                            <span class="promo-price">R$ 69,90</span>
+                            R$ 59,90
+                            <span class="promo-badge">-14%</span>
+                        </span>
+                    </h3>
+                    <p class="menu-item-description">1 pizza média + 2 hambúrgueres + 2 refrigerantes</p>
+                    <div class="menu-item-actions">
+                        <div class="rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <span class="rating-count">(89)</span>
+                        </div>
+                        <button class="order-btn" onclick="addToCart('Combo Casal', 59.90, 'https://images.unsplash.com/photo-1551782450-a2132b4ba21d?w=500')">
+                            <i class="fas fa-shopping-cart"></i>
+                            Adicionar
+                        </button>
+                    </div>
+                </div>
+                <div class="menu-item-details">
+                    <h4>Detalhes</h4>
+                    <ul>
+                        <li><i class="fas fa-users"></i> Serve 2 pessoas</li>
+                        <li><i class="fas fa-clock"></i> Tempo de preparo: 25 min</li>
+                        <li><i class="fas fa-info-circle"></i> Economia de R$ 10,00</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="social-comments">
+            <h2>O que dizem sobre nós</h2>
+            
+            <div class="comment-stats">
+                <div class="stat-item">
+                    <div class="stat-value">4.8</div>
+                    <div class="stat-label">Avaliação Média</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">1.2k</div>
+                    <div class="stat-label">Comentários</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">98%</div>
+                    <div class="stat-label">Recomendam</div>
+                </div>
+            </div>
+
+            <div class="comment-filters">
+                <button class="filter-btn active" onclick="filterComments('all')">Todos</button>
+                <button class="filter-btn" onclick="filterComments('positive')">Positivos</button>
+                <button class="filter-btn" onclick="filterComments('recent')">Mais Recentes</button>
+                <button class="filter-btn" onclick="filterComments('photos')">Com Fotos</button>
+            </div>
+            
+            <div class="comment-form">
+                <h3>Deixe seu comentário</h3>
+                <div class="rating-input" id="userRating">
+                    <i class="far fa-star" data-rating="1"></i>
+                    <i class="far fa-star" data-rating="2"></i>
+                    <i class="far fa-star" data-rating="3"></i>
+                    <i class="far fa-star" data-rating="4"></i>
+                    <i class="far fa-star" data-rating="5"></i>
+                </div>
+                <textarea class="comment-input" id="commentInput" placeholder="Escreva seu comentário..."></textarea>
+                <button class="comment-submit" onclick="submitComment()">Enviar Comentário</button>
+            </div>
+
+            <div id="commentsList">
+                <!-- Comments will be loaded here -->
+            </div>
+        </div>
+
+        <section class="map-section">
+            <h2>Nossa Localização</h2>
+            <div class="map-container">
+                <a href="https://maps.app.goo.gl/VK8WXdc465rVYF5t8" target="_blank" rel="noopener noreferrer">
+                    <img src="/img/Captura de imagem_20250611_201252-2.png" alt="Localização da Ki Delicia">
+                </a>
+            </div>
+            <div class="address-info">
+                <p>R. 3 do Marabaixo, 1916 - Marabaixo, Macapá - AP, 68909-853</p>
+            </div>
+        </section>
+    </main>
+
+    <!-- Address Modal -->
+    <div class="address-modal" id="addressModal">
+        <div class="address-form">
+            <h2>Informe seu endereço</h2>
+            <form id="addressForm" onsubmit="handleAddressSubmit(event)">
+                <div class="form-group">
+                    <label for="street">Rua</label>
+                    <input type="text" id="street" required>
+                </div>
+                <div class="form-group">
+                    <label for="number">Número</label>
+                    <input type="text" id="number" required>
+                </div>
+                <div class="form-group">
+                    <label for="complement">Complemento</label>
+                    <input type="text" id="complement">
+                </div>
+                <div class="form-group">
+                    <label for="neighborhood">Bairro</label>
+                    <input type="text" id="neighborhood" required>
+                </div>
+                <div class="form-group">
+                    <label for="city">Cidade</label>
+                    <input type="text" id="city" required>
+                </div>
+                <div class="form-group">
+                    <label for="state">Estado</label>
+                    <input type="text" id="state" required>
+                </div>
+                <div class="form-buttons">
+                    <button type="button" class="btn btn-secondary" onclick="closeAddressModal()">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Confirmar Pedido</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Loading Spinner -->
+    <div class="loading" id="loading">
+        <div class="loading-spinner"></div>
+    </div>
+
+    <!-- Cart Modal -->
+    <div class="cart-modal" id="cartModal">
+        <div class="cart-header">
+            <h2>Seu Carrinho</h2>
+            <button onclick="toggleCart()">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="cart-items" id="cartItems">
+            <!-- Cart items will be added here -->
+        </div>
+        <div class="cart-total">
+            <div class="loyalty-points">
+                <i class="fas fa-star"></i>
+                <span id="loyaltyPoints">0</span> pontos disponíveis
+            </div>
+            
+            <div class="coupon-section">
+                <div class="coupon-input">
+                    <input type="text" id="couponCode" placeholder="Digite seu cupom">
+                    <button class="btn btn-secondary" onclick="applyCoupon()">Aplicar</button>
+                </div>
+                <div id="couponMessage"></div>
+            </div>
+
+            <div class="schedule-section">
+                <h4>Agendar Pedido</h4>
+                <div class="schedule-options">
+                    <div class="schedule-option active" onclick="toggleScheduleOption('now')">Agora</div>
+                    <div class="schedule-option" onclick="toggleScheduleOption('later')">Agendar</div>
+                </div>
+                <div id="schedulePicker" style="display: none;">
+                    <input type="datetime-local" class="datetime-picker" id="orderDateTime">
+                </div>
+            </div>
+
+            <div class="cart-total-row">
+                <span>Subtotal:</span>
+                <span id="cartSubtotal">R$ 0,00</span>
+            </div>
+            <div class="cart-total-row">
+                <span>Taxa de entrega:</span>
+                <span>R$ 5,00</span>
+            </div>
+            <div class="cart-total-row" id="discountRow" style="display: none;">
+                <span>Desconto:</span>
+                <span id="discountAmount">-R$ 0,00</span>
+            </div>
+            <div class="cart-total-row">
+                <strong>Total:</strong>
+                <strong id="cartTotal">R$ 0,00</strong>
+            </div>
+            <button class="checkout-btn" onclick="checkout()">
+                Finalizar Pedido
+            </button>
+        </div>
+    </div>
+
+    <!-- Notification -->
+    <div class="notification" id="notification"></div>
+
+    <!-- Photo Modal -->
+    <div class="comment-photo-modal" id="photoModal">
+        <span class="close" onclick="closePhotoModal()">&times;</span>
+        <img id="modalImage" src="" alt="Comentário">
+    </div>
+
+    <script>
+        let currentOrder = null;
+        let addressCache = {};
+
+        // Theme Toggle
+        function toggleTheme() {
+            const body = document.body;
+            const currentTheme = body.getAttribute('data-theme');
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            body.setAttribute('data-theme', newTheme);
+            
+            const themeIcon = document.querySelector('.theme-toggle i');
+            themeIcon.className = newTheme === 'light' ? 'fas fa-moon' : 'fas fa-sun';
+            
+            // Save theme preference
+            localStorage.setItem('theme', newTheme);
+        }
+
+        // Load saved theme
+        function loadSavedTheme() {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme) {
+                document.body.setAttribute('data-theme', savedTheme);
+                const themeIcon = document.querySelector('.theme-toggle i');
+                themeIcon.className = savedTheme === 'light' ? 'fas fa-moon' : 'fas fa-sun';
+            }
+        }
+
+        // Address Modal Functions
+        function showAddressModal(itemName, price) {
+            currentOrder = { itemName, price };
+            const modal = document.getElementById('addressModal');
+            modal.classList.add('active');
+            
+            // Load cached address if exists
+            if (addressCache.street) {
+                Object.keys(addressCache).forEach(key => {
+                    const input = document.getElementById(key);
+                    if (input) input.value = addressCache[key];
+                });
+            }
+        }
+
+        function closeAddressModal() {
+            document.getElementById('addressModal').classList.remove('active');
+            currentOrder = null;
+            clearFormErrors();
+        }
+
+        function clearFormErrors() {
+            document.querySelectorAll('.error-message').forEach(el => el.classList.remove('show'));
+            document.querySelectorAll('input.error').forEach(el => el.classList.remove('error'));
+        }
+
+        function validateForm() {
+            let isValid = true;
+            const requiredFields = ['street', 'number', 'neighborhood', 'city', 'state'];
+            
+            requiredFields.forEach(field => {
+                const input = document.getElementById(field);
+                const errorMessage = input.nextElementSibling;
+                
+                if (!input.value.trim()) {
+                    input.classList.add('error');
+                    errorMessage.classList.add('show');
+                    isValid = false;
+                } else {
+                    input.classList.remove('error');
+                    errorMessage.classList.remove('show');
+                }
+            });
+
+            return isValid;
+        }
+
+        function handleAddressSubmit(event) {
+            event.preventDefault();
+            
+            if (!validateForm()) {
+                return;
+            }
+
+            showLoading();
+            
+            const address = {
+                street: document.getElementById('street').value,
+                number: document.getElementById('number').value,
+                complement: document.getElementById('complement').value,
+                neighborhood: document.getElementById('neighborhood').value,
+                city: document.getElementById('city').value,
+                state: document.getElementById('state').value
+            };
+
+            // Cache the address
+            addressCache = { ...address };
+
+            const fullAddress = `${address.street}, ${address.number}${address.complement ? ` - ${address.complement}` : ''}, ${address.neighborhood}, ${address.city} - ${address.state}`;
+            
+            // Format the message according to the requested structure
+            const message = `Olá, quero pedir ${currentOrder.itemName}, entregue na rua ${fullAddress}`;
+            
+            // WhatsApp number with country code
+            const whatsappNumber = '5596992042191';
+            const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
+            
+            // Simulate loading
+            setTimeout(() => {
+                hideLoading();
+                window.open(whatsappUrl, '_blank');
+                closeAddressModal();
+            }, 1000);
+        }
+
+        function showLoading() {
+            document.getElementById('loading').classList.add('active');
+        }
+
+        function hideLoading() {
+            document.getElementById('loading').classList.remove('active');
+        }
+
+        // Initialize Google Maps
+        function initMap() {
+            const map = new google.maps.Map(document.getElementById('map'), {
+                center: { lat: -23.550520, lng: -46.633308 },
+                zoom: 15
+            });
+
+            // Add marker
+            new google.maps.Marker({
+                position: { lat: -23.550520, lng: -46.633308 },
+                map: map,
+                title: 'Ki Delicia'
+            });
+        }
+
+        // Load Google Maps API
+        function loadGoogleMaps() {
+            const script = document.createElement('script');
+            script.src = `https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap`;
+            script.async = true;
+            script.defer = true;
+            document.head.appendChild(script);
+        }
+
+        // Comment System
+        let userRating = 0;
+        let comments = JSON.parse(localStorage.getItem('comments')) || [];
+
+        function initializeRatingSystem() {
+            const stars = document.querySelectorAll('.rating-input i');
+            stars.forEach(star => {
+                star.addEventListener('mouseover', () => {
+                    const rating = parseInt(star.dataset.rating);
+                    updateStars(rating);
+                });
+
+                star.addEventListener('mouseout', () => {
+                    updateStars(userRating);
+                });
+
+                star.addEventListener('click', () => {
+                    userRating = parseInt(star.dataset.rating);
+                    updateStars(userRating);
+                });
+            });
+        }
+
+        function updateStars(rating) {
+            const stars = document.querySelectorAll('.rating-input i');
+            stars.forEach(star => {
+                const starRating = parseInt(star.dataset.rating);
+                if (starRating <= rating) {
+                    star.className = 'fas fa-star active';
+                } else {
+                    star.className = 'far fa-star';
+                }
+            });
+        }
+
+        function submitComment() {
+            const commentText = document.getElementById('commentInput').value.trim();
+            
+            if (!commentText) {
+                showNotification('Por favor, escreva um comentário');
+                return;
+            }
+
+            if (userRating === 0) {
+                showNotification('Por favor, selecione uma avaliação');
+                return;
+            }
+
+            const newComment = {
+                id: Date.now(),
+                author: 'Usuário ' + Math.floor(Math.random() * 1000),
+                text: commentText,
+                rating: userRating,
+                date: new Date().toISOString(),
+                likes: 0,
+                replies: []
+            };
+
+            comments.unshift(newComment);
+            localStorage.setItem('comments', JSON.stringify(comments));
+            
+            document.getElementById('commentInput').value = '';
+            userRating = 0;
+            updateStars(0);
+            
+            loadComments();
+            showNotification('Comentário enviado com sucesso!');
+        }
+
+        function loadComments() {
+            const commentsList = document.getElementById('commentsList');
+            commentsList.innerHTML = '';
+
+            comments.forEach(comment => {
+                const commentElement = document.createElement('div');
+                commentElement.className = 'comment';
+                commentElement.innerHTML = `
+                    <div class="comment-avatar">
+                        ${comment.author.charAt(0)}
+                    </div>
+                    <div class="comment-content">
+                        <div class="comment-header">
+                            <span class="comment-author">
+                                ${comment.author}
+                                ${comment.verified ? '<span class="comment-verified"><i class="fas fa-check-circle"></i>Verificado</span>' : ''}
+                            </span>
+                            <span class="comment-date">${formatDate(comment.date)}</span>
+                        </div>
+                        <div class="rating">
+                            ${Array(5).fill().map((_, i) => 
+                                `<i class="fas fa-star${i < comment.rating ? '' : '-o'}"></i>`
+                            ).join('')}
+                        </div>
+                        <p class="comment-text">${comment.text}</p>
+                        ${comment.photo ? `
+                            <img src="${comment.photo}" alt="Comentário" class="comment-photo" onclick="showPhotoModal('${comment.photo}')">
+                        ` : ''}
+                        <div class="comment-actions">
+                            <span class="comment-action" onclick="likeComment(${comment.id})">
+                                <i class="far fa-heart"></i>
+                                <span>${comment.likes}</span>
+                            </span>
+                            <span class="comment-action" onclick="toggleReplyForm(${comment.id})">
+                                <i class="far fa-comment"></i>
+                                <span>Responder</span>
+                            </span>
+                            <div class="comment-share">
+                                <button class="share-btn" onclick="shareComment(${comment.id}, 'whatsapp')">
+                                    <i class="fab fa-whatsapp"></i> WhatsApp
+                                </button>
+                                <button class="share-btn" onclick="shareComment(${comment.id}, 'facebook')">
+                                    <i class="fab fa-facebook"></i> Facebook
+                                </button>
+                            </div>
+                            <span class="comment-report" onclick="reportComment(${comment.id})">
+                                <i class="far fa-flag"></i> Denunciar
+                            </span>
+                        </div>
+                        <div class="comment-reply-form" id="replyForm${comment.id}">
+                            <textarea class="comment-reply-input" placeholder="Escreva sua resposta..."></textarea>
+                            <button class="comment-reply-submit" onclick="submitReply(${comment.id})">Responder</button>
+                        </div>
+                        ${comment.replies.length > 0 ? `
+                            <div class="comment-replies">
+                                ${comment.replies.map(reply => `
+                                    <div class="comment">
+                                        <div class="comment-avatar">
+                                            ${reply.author.charAt(0)}
+                                        </div>
+                                        <div class="comment-content">
+                                            <div class="comment-header">
+                                                <span class="comment-author">${reply.author}</span>
+                                                <span class="comment-date">${formatDate(reply.date)}</span>
+                                            </div>
+                                            <p class="comment-text">${reply.text}</p>
+                                        </div>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        ` : ''}
+                    </div>
+                `;
+                commentsList.appendChild(commentElement);
+            });
+        }
+
+        function likeComment(commentId) {
+            const comment = comments.find(c => c.id === commentId);
+            if (comment) {
+                comment.likes++;
+                localStorage.setItem('comments', JSON.stringify(comments));
+                loadComments();
+            }
+        }
+
+        function toggleReplyForm(commentId) {
+            const replyForm = document.getElementById(`replyForm${commentId}`);
+            replyForm.classList.toggle('active');
+        }
+
+        function submitReply(commentId) {
+            const replyForm = document.getElementById(`replyForm${commentId}`);
+            const replyInput = replyForm.querySelector('.comment-reply-input');
+            const replyText = replyInput.value.trim();
+
+            if (!replyText) {
+                showNotification('Por favor, escreva uma resposta');
+                return;
+            }
+
+            const comment = comments.find(c => c.id === commentId);
+            if (comment) {
+                comment.replies.push({
+                    author: 'Usuário ' + Math.floor(Math.random() * 1000),
+                    text: replyText,
+                    date: new Date().toISOString()
+                });
+
+                localStorage.setItem('comments', JSON.stringify(comments));
+                replyInput.value = '';
+                replyForm.classList.remove('active');
+                loadComments();
+                showNotification('Resposta enviada com sucesso!');
+            }
+        }
+
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('pt-BR', {
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+        }
+
+        // Cart functionality
+        let cart = [];
+        let favorites = new Set();
+
+        function toggleCart() {
+            document.getElementById('cartModal').classList.toggle('active');
+        }
+
+        function addToCart(name, price, image) {
+            const existingItem = cart.find(item => item.name === name);
+            
+            if (existingItem) {
+                existingItem.quantity++;
+            } else {
+                cart.push({
+                    name,
+                    price,
+                    image,
+                    quantity: 1
+                });
+            }
+
+            updateCart();
+            showNotification(`${name} adicionado ao carrinho!`);
+        }
+
+        function updateCart() {
+            const cartItems = document.getElementById('cartItems');
+            const cartCount = document.querySelector('.cart-count');
+            const cartSubtotal = document.getElementById('cartSubtotal');
+            const cartTotal = document.getElementById('cartTotal');
+            const discountRow = document.getElementById('discountRow');
+            const discountAmount = document.getElementById('discountAmount');
+            
+            cartItems.innerHTML = '';
+            let total = 0;
+
+            cart.forEach((item, index) => {
+                const itemTotal = item.price * item.quantity;
+                total += itemTotal;
+
+                cartItems.innerHTML += `
+                    <div class="cart-item">
+                        <img src="${item.image}" alt="${item.name}">
+                        <div class="cart-item-details">
+                            <div class="cart-item-title">${item.name}</div>
+                            <div class="cart-item-price">R$ ${item.price.toFixed(2)}</div>
+                            <div class="cart-item-quantity">
+                                <button class="quantity-btn" onclick="updateQuantity(${index}, -1)">-</button>
+                                <span>${item.quantity}</span>
+                                <button class="quantity-btn" onclick="updateQuantity(${index}, 1)">+</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+
+            cartCount.textContent = cart.reduce((sum, item) => sum + item.quantity, 0);
+            
+            // Apply coupon discount if exists
+            let finalTotal = total + 5;
+            if (appliedCoupon) {
+                const discount = (total * appliedCoupon.discount) / 100;
+                finalTotal -= discount;
+                discountRow.style.display = 'flex';
+                discountAmount.textContent = `-R$ ${discount.toFixed(2)}`;
+            } else {
+                discountRow.style.display = 'none';
+            }
+
+            cartSubtotal.textContent = `R$ ${total.toFixed(2)}`;
+            cartTotal.textContent = `R$ ${finalTotal.toFixed(2)}`;
+            updateLoyaltyPoints();
+        }
+
+        function updateQuantity(index, change) {
+            cart[index].quantity += change;
+            
+            if (cart[index].quantity <= 0) {
+                cart.splice(index, 1);
+            }
+            
+            updateCart();
+        }
+
+        function toggleFavorite(button) {
+            const icon = button.querySelector('i');
+            icon.classList.toggle('far');
+            icon.classList.toggle('fas');
+            
+            const menuItem = button.closest('.menu-item');
+            const itemName = menuItem.querySelector('.menu-item-title').textContent;
+            
+            if (favorites.has(itemName)) {
+                favorites.delete(itemName);
+                showNotification('Item removido dos favoritos');
+            } else {
+                favorites.add(itemName);
+                showNotification('Item adicionado aos favoritos');
+            }
+        }
+
+        function showNotification(message) {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.classList.add('show');
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+
+        function searchProducts(query) {
+            const menuItems = document.querySelectorAll('.menu-item');
+            query = query.toLowerCase();
+
+            menuItems.forEach(item => {
+                const title = item.querySelector('.menu-item-title').textContent.toLowerCase();
+                const description = item.querySelector('.menu-item-description').textContent.toLowerCase();
+                
+                if (title.includes(query) || description.includes(query)) {
+                    item.style.display = '';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        }
+
+        function filterCategory(category) {
+            const buttons = document.querySelectorAll('.category-btn');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+
+            const menuItems = document.querySelectorAll('.menu-item');
+            menuItems.forEach(item => {
+                if (category === 'all' || item.dataset.category === category) {
+                    item.style.display = '';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        }
+
+        function checkout() {
+            if (cart.length === 0) {
+                showNotification('Adicione itens ao carrinho primeiro!');
+                return;
+            }
+
+            const orderItems = cart.map(item => 
+                `${item.quantity}x ${item.name} - R$ ${(item.price * item.quantity).toFixed(2)}`
+            ).join('\n');
+
+            let total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0) + 5;
+            
+            // Apply coupon discount
+            if (appliedCoupon) {
+                const discount = (total * appliedCoupon.discount) / 100;
+                total -= discount;
+            }
+
+            let message = `Pedido:\n${orderItems}\n\nTaxa de entrega: R$ 5,00\nTotal: R$ ${total.toFixed(2)}`;
+            
+            // Add schedule information if scheduled
+            if (orderSchedule === 'later' && scheduledDateTime) {
+                message += `\n\nAgendado para: ${new Date(scheduledDateTime).toLocaleString()}`;
+            }
+
+            // Add loyalty points information
+            message += `\n\nPontos ganhos: ${Math.floor(total)}`;
+            
+            showAddressModal(message);
+        }
+
+        function filterComments(filter) {
+            const buttons = document.querySelectorAll('.filter-btn');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+
+            let filteredComments = [...comments];
+            
+            switch(filter) {
+                case 'positive':
+                    filteredComments = comments.filter(c => c.rating >= 4);
+                    break;
+                case 'recent':
+                    filteredComments.sort((a, b) => new Date(b.date) - new Date(a.date));
+                    break;
+                case 'photos':
+                    filteredComments = comments.filter(c => c.photo);
+                    break;
+            }
+
+            const commentsList = document.getElementById('commentsList');
+            commentsList.innerHTML = '';
+            filteredComments.forEach(comment => {
+                const commentElement = document.createElement('div');
+                commentElement.className = 'comment';
+                commentElement.innerHTML = `
+                    <div class="comment-avatar">
+                        ${comment.author.charAt(0)}
+                    </div>
+                    <div class="comment-content">
+                        <div class="comment-header">
+                            <span class="comment-author">
+                                ${comment.author}
+                                ${comment.verified ? '<span class="comment-verified"><i class="fas fa-check-circle"></i>Verificado</span>' : ''}
+                            </span>
+                            <span class="comment-date">${formatDate(comment.date)}</span>
+                        </div>
+                        <div class="rating">
+                            ${Array(5).fill().map((_, i) => 
+                                `<i class="fas fa-star${i < comment.rating ? '' : '-o'}"></i>`
+                            ).join('')}
+                        </div>
+                        <p class="comment-text">${comment.text}</p>
+                        ${comment.photo ? `
+                            <img src="${comment.photo}" alt="Comentário" class="comment-photo" onclick="showPhotoModal('${comment.photo}')">
+                        ` : ''}
+                        <div class="comment-actions">
+                            <span class="comment-action" onclick="likeComment(${comment.id})">
+                                <i class="far fa-heart"></i>
+                                <span>${comment.likes}</span>
+                            </span>
+                            <span class="comment-action" onclick="toggleReplyForm(${comment.id})">
+                                <i class="far fa-comment"></i>
+                                <span>Responder</span>
+                            </span>
+                            <div class="comment-share">
+                                <button class="share-btn" onclick="shareComment(${comment.id}, 'whatsapp')">
+                                    <i class="fab fa-whatsapp"></i> WhatsApp
+                                </button>
+                                <button class="share-btn" onclick="shareComment(${comment.id}, 'facebook')">
+                                    <i class="fab fa-facebook"></i> Facebook
+                                </button>
+                            </div>
+                            <span class="comment-report" onclick="reportComment(${comment.id})">
+                                <i class="far fa-flag"></i> Denunciar
+                            </span>
+                        </div>
+                        <div class="comment-reply-form" id="replyForm${comment.id}">
+                            <textarea class="comment-reply-input" placeholder="Escreva sua resposta..."></textarea>
+                            <button class="comment-reply-submit" onclick="submitReply(${comment.id})">Responder</button>
+                        </div>
+                        ${comment.replies.length > 0 ? `
+                            <div class="comment-replies">
+                                ${comment.replies.map(reply => `
+                                    <div class="comment">
+                                        <div class="comment-avatar">
+                                            ${reply.author.charAt(0)}
+                                        </div>
+                                        <div class="comment-content">
+                                            <div class="comment-header">
+                                                <span class="comment-author">${reply.author}</span>
+                                                <span class="comment-date">${formatDate(reply.date)}</span>
+                                            </div>
+                                            <p class="comment-text">${reply.text}</p>
+                                        </div>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        ` : ''}
+                    </div>
+                `;
+                commentsList.appendChild(commentElement);
+            });
+        }
+
+        function showPhotoModal(photoUrl) {
+            const modal = document.getElementById('photoModal');
+            const modalImg = document.getElementById('modalImage');
+            modal.classList.add('active');
+            modalImg.src = photoUrl;
+        }
+
+        function closePhotoModal() {
+            document.getElementById('photoModal').classList.remove('active');
+        }
+
+        function shareComment(commentId, platform) {
+            const comment = comments.find(c => c.id === commentId);
+            if (!comment) return;
+
+            const text = `Confira este comentário sobre Ki Delicia:\n\n${comment.author}: ${comment.text}\n\nAvaliação: ${comment.rating}/5`;
+            let url = '';
+
+            switch(platform) {
+                case 'whatsapp':
+                    url = `https://wa.me/?text=${encodeURIComponent(text)}`;
+                    break;
+                case 'facebook':
+                    url = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.href)}&quote=${encodeURIComponent(text)}`;
+                    break;
+            }
+
+            window.open(url, '_blank');
+        }
+
+        function reportComment(commentId) {
+            if (confirm('Deseja denunciar este comentário?')) {
+                showNotification('Comentário denunciado. Nossa equipe irá analisar.');
+            }
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            loadSavedTheme();
+            loadComments();
+            initializeRatingSystem();
+            filterComments('all');
+            updateLoyaltyPoints();
+            // loadGoogleMaps();
+        });
+
+        // New variables for new features
+        let loyaltyPoints = parseInt(localStorage.getItem('loyaltyPoints')) || 0;
+        let appliedCoupon = null;
+        let orderSchedule = 'now';
+        let scheduledDateTime = null;
+
+        // Coupon system
+        const validCoupons = {
+            'KI10': 10,
+            'KI20': 20,
+            'KI30': 30
+        };
+
+        function applyCoupon() {
+            const couponInput = document.getElementById('couponCode');
+            const couponMessage = document.getElementById('couponMessage');
+            const code = couponInput.value.toUpperCase();
+
+            if (validCoupons[code]) {
+                appliedCoupon = {
+                    code: code,
+                    discount: validCoupons[code]
+                };
+                couponMessage.textContent = `Cupom aplicado! Desconto de ${validCoupons[code]}%`;
+                couponMessage.style.color = 'var(--success-color)';
+                updateCart();
+            } else {
+                appliedCoupon = null;
+                couponMessage.textContent = 'Cupom inválido';
+                couponMessage.style.color = 'var(--error-color)';
+                updateCart();
+            }
+        }
+
+        // Loyalty points system
+        function updateLoyaltyPoints() {
+            const pointsElement = document.getElementById('loyaltyPoints');
+            pointsElement.textContent = loyaltyPoints;
+        }
+
+        function addLoyaltyPoints(amount) {
+            loyaltyPoints += amount;
+            localStorage.setItem('loyaltyPoints', JSON.stringify(loyaltyPoints));
+            updateLoyaltyPoints();
+        }
+
+        function useLoyaltyPoints() {
+            if (loyaltyPoints >= 100) {
+                loyaltyPoints -= 100;
+                localStorage.setItem('loyaltyPoints', JSON.stringify(loyaltyPoints));
+                updateLoyaltyPoints();
+                return true;
+            }
+            return false;
+        }
+
+        // Schedule system
+        function toggleScheduleOption(option) {
+            orderSchedule = option;
+            const schedulePicker = document.getElementById('schedulePicker');
+            const options = document.querySelectorAll('.schedule-option');
+            
+            options.forEach(opt => opt.classList.remove('active'));
+            event.target.classList.add('active');
+
+            if (option === 'later') {
+                schedulePicker.style.display = 'block';
+                const now = new Date();
+                const minDate = new Date(now.getTime() + 30 * 60000); // 30 minutes from now
+                document.getElementById('orderDateTime').min = minDate.toISOString().slice(0, 16);
+            } else {
+                schedulePicker.style.display = 'none';
+                scheduledDateTime = null;
+            }
+        }
+    </script>
+</body>
+</html>
